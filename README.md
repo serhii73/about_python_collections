@@ -256,3 +256,37 @@ In [87]: """defaultdict is a dict subclass with default values for non-exist ent
     ...: ."""
 Out[87]: 'defaultdict is a dict subclass with default values for non-exist entries. It takes a factory for initalizing. Factory helps it with generating values for non-exist entries. Also you can regular dict API with it.'
 ```
+###### [About collections.UserDict , collections.UserList , and collections.UserString](https://medium.com/bynder-tech/using-collections-in-python-36129737b5a1)
+```
+In [16]: class Event(dict):
+    ...:     def __getitem__(self, key):
+    ...:         value = super().__getitem__(key)
+    ...:         return f"[{self.__class__.__name__}]: {value}"
+    ...:     
+
+In [17]: event = Event(user="user", event_type="login", date="2017-07-11")
+
+In [18]: for key, value in event.items():
+    ...:     print(f"{key} = {value}")
+    ...: 
+    ...:     
+user = user
+event_type = login
+date = 2017-07-11
+
+In [19]: class Event(collections.UserDict):
+    ...:     def __getitem__(self, key):
+    ...:         value = super().__getitem__(key)
+    ...:         return f"[{self.__class__.__name__}]: {value}"
+    ...:     
+
+In [20]: event = Event(user="user", event_type="login", date="2017-07-11")
+
+In [21]: for key, value in event.items():
+    ...:     print(f"{key} = {value}")
+    ...: 
+    ...:     
+user = [Event]: user
+event_type = [Event]: login
+date = [Event]: 2017-07-11
+```
